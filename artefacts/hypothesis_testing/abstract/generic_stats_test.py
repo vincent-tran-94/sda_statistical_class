@@ -1,0 +1,2 @@
+def GenericStatsTest(InterfaceStatsTest):
+    pass
