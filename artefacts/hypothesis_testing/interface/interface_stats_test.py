@@ -18,7 +18,11 @@ class InterfaceStatsTest(ABC):
 
     @abstractmethod
     def fit(
-        self, X: ArrayLike, y: Optional[ArrayLike] = None, threshold: float = 0.5
+        self,
+        X: ArrayLike,
+        y: Optional[ArrayLike] = None,
+        threshold: float = 0.5,
+        **kwargs
     ) -> "InterfaceStatsTest":
         pass
 
