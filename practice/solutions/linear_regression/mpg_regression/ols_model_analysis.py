@@ -74,7 +74,7 @@ def plot_prediction_intervals(
 
     # Plot the data, fitted line, and prediction intervals
     plt.figure(figsize=(12, 8))
-    plt.scatter(X.loc[:, "horsepower"], y, color=colors[0], label="Observed Data")
+    plt.scatter(X.loc[:, "weight"], y, color=colors[0], label="Observed Data")
 
     # Determine colors for the error bars
     colors_error = [
@@ -89,7 +89,7 @@ def plot_prediction_intervals(
     # Plot error bars
     for i in range(len(y)):
         plt.errorbar(
-            X.loc[:, "horsepower"].iloc[i],
+            X.loc[:, "weight"].iloc[i],
             model.fittedvalues.iloc[i],
             yerr=[
                 [model.fittedvalues.iloc[i] - lower_bound.iloc[i]],
@@ -104,7 +104,7 @@ def plot_prediction_intervals(
         )
 
     # Add labels and legend
-    plt.xlabel("Horsepower")
+    plt.xlabel("weight")
     plt.ylabel("MPG")
     plt.legend()
     coverage = [color == colors[3] for color in colors_error].count(True) / len(y)
@@ -131,18 +131,25 @@ if __name__ == "__main__":
     )
     print(hypothesis_checker.get_check_report())
 
+    non_significant_features = model.pvalues[model.pvalues > 0.05].index
+
+    modified_X = modified_X.drop(columns=non_significant_features)
+
+    new_model = sm.OLS(y, modified_X).fit()
+    print(new_model.summary())
+
     # graphical check of the hypothesis
     colors = setup_plot()
 
-    plot_residuals_density(residuals=model.resid, colors=colors)
+    plot_residuals_density(residuals=new_model.resid, colors=colors)
     plot_homoscedasticity(
-        residuals=model.resid, preds=model.fittedvalues, colors=colors
+        residuals=new_model.resid, preds=new_model.fittedvalues, colors=colors
     )
-    plot_residuals_autocorrelation(residuals=model.resid)
-    QuantitativeAnalysis.plot_linear_correlation(data=X, colors=colors)
+    plot_residuals_autocorrelation(residuals=new_model.resid)
+    QuantitativeAnalysis.plot_linear_correlation(data=modified_X, colors=colors)
 
     # plot results
     print("Coef associated to each variable :")
-    print(model.params)
+    print(new_model.params)
 
-    plot_prediction_intervals(X=modified_X, y=y, model=model, colors=colors)
+    plot_prediction_intervals(X=modified_X, y=y, model=new_model, colors=colors)

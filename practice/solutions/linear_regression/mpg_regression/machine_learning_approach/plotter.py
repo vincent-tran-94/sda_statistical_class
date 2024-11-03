@@ -18,7 +18,7 @@ def plot_results_with_mapie(X_test, y_test, pipeline, colors: list[str]):
 
     plt.figure(figsize=(12, 8))
     plt.scatter(
-        X_test.loc[:, "horsepower"],
+        X_test.loc[:, "weight"],
         y_test,
         alpha=0.7,
         color=colors[0],
@@ -27,7 +27,7 @@ def plot_results_with_mapie(X_test, y_test, pipeline, colors: list[str]):
     )
 
     plt.scatter(
-        X_test.loc[:, "horsepower"],
+        X_test.loc[:, "weight"],
         y_pred,
         alpha=0.7,
         color=colors[1],
@@ -45,7 +45,7 @@ def plot_results_with_mapie(X_test, y_test, pipeline, colors: list[str]):
     # Plot predictions with error bars
     for i in range(len(y_pred)):
         plt.errorbar(
-            X_test.loc[:, "horsepower"].iloc[i],
+            X_test.loc[:, "weight"].iloc[i],
             y_pred[i],
             yerr=[
                 [y_pred[i] - y_pis[i, 0, 0]],
