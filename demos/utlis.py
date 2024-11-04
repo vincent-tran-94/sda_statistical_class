@@ -1,9 +1,14 @@
 from enum import Enum
 from typing import Optional
 
+import numpy as np
+import statsmodels.api as sm
+
 from matplotlib import pyplot as plt
+from matplotlib.colors import ListedColormap
 from numpy._typing import ArrayLike
 from sklearn.datasets import make_regression, make_classification
+from statsmodels.discrete.discrete_model import BinaryResultsWrapper
 
 
 class ProblemType(Enum):
@@ -26,11 +31,7 @@ def get_data(type: ProblemType):
         return make_regression(n_samples=200, n_features=1, bias=4, noise=20.0)
     else:
         return make_classification(
-            n_samples=200,
-            n_features=1,
-            n_informative=1,
-            n_redundant=0,
-            n_clusters_per_class=1,
+            n_samples=200, n_features=2, n_informative=2, n_redundant=0, random_state=42
         )
 
 
@@ -49,4 +50,43 @@ def plot_data(
 
     plt.legend()
     plt.grid()
+    plt.show()
+
+
+def plot_classification(
+    X: ArrayLike,
+    y: ArrayLike,
+    colors: list[str],
+    clf: Optional[BinaryResultsWrapper] = None,
+):
+    cmap_background = ListedColormap([colors[0], colors[1]])
+    cmap_points = ListedColormap([colors[0], colors[1]])
+
+    x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
+    y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
+    xx, yy = np.meshgrid(np.arange(x_min, x_max, 0.1), np.arange(y_min, y_max, 0.1))
+
+    if clf:
+        # Flatten the meshgrid arrays and add a column of ones for the intercept
+        grid = np.c_[xx.ravel(), yy.ravel()]
+        grid_with_intercept = sm.add_constant(grid)
+
+        # Predict and reshape to match the shape of the meshgrid
+        Z = clf.predict(grid_with_intercept)
+        Z = Z.reshape(xx.shape)
+
+    plt.figure(figsize=(12, 8))
+    if clf:
+        plt.contourf(xx, yy, Z, alpha=0.2, cmap=cmap_background)
+
+    plt.scatter(X[:, 0], X[:, 1], c=y, cmap=cmap_points, edgecolor=colors[2], s=50)
+    if clf:
+        plt.title(
+            "Frontière de décision de la régression logistique", fontweight="bold"
+        )
+    else:
+        plt.title("Visualisation du dataset", fontweight="bold")
+    plt.xlabel("Variable 1")
+    plt.ylabel("Variable 2")
+    plt.grid(True)
     plt.show()
