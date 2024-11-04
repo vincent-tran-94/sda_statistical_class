@@ -1,6 +1,6 @@
 from scipy.stats import kstest, norm
 from mocks.hypothesis_testing.hypothesis_testing_mocks import mock_problems
-from practice.solutions.utils.plotter.plotter import plot_two_samples
+from practice.solutions.hypothesis_testing.utils.plotter import plot_two_samples
 
 if __name__ == "__main__":
     problem = mock_problems.get("normality_large_sample")

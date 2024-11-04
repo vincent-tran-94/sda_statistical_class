@@ -1,3 +1,5 @@
+from typing import Optional
+
 import numpy as np
 import seaborn as sns
 from matplotlib import pyplot as plt, patches
@@ -56,14 +58,28 @@ class QuantitativeAnalysis:
         plt.show()
 
     @staticmethod
-    def plot_pairplot(data: DataFrame, colors: list[str]) -> None:
-        sns.pairplot(
-            data,
-            plot_kws={"alpha": 0.6, "color": colors[1]},
-            diag_kws={"fill": True, "alpha": 0.6, "color": colors[0]},
-            diag_kind="kde",
-            kind="scatter",
-        )
+    def plot_pairplot(
+        data: DataFrame, colors: list[str], hue: Optional[str] = None
+    ) -> None:
+        if hue:
+            n_modalities = data.loc[:, hue].nunique()
+            sns.pairplot(
+                data,
+                plot_kws={"alpha": 0.6},
+                diag_kws={"fill": True, "alpha": 0.6},
+                diag_kind="kde",
+                kind="scatter",
+                palette=colors[:n_modalities],
+                hue=hue,
+            )
+        else:
+            sns.pairplot(
+                data,
+                plot_kws={"alpha": 0.6, "color": colors[1]},
+                diag_kws={"fill": True, "alpha": 0.6, "color": colors[0]},
+                diag_kind="kde",
+                kind="scatter",
+            )
         plt.show()
 
 
