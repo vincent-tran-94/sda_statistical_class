@@ -12,7 +12,7 @@ from statsmodels.stats.diagnostic import het_goldfeldquandt
 from statsmodels.stats.stattools import durbin_watson
 
 
-class HypothesisChecker:
+class HypothesisCheckerComputer:
 
     @staticmethod
     def fit_ols(X: ArrayLike, y: ArrayLike) -> RegressionResults:
@@ -66,7 +66,7 @@ class HypothesisChecker:
 
 
 @dataclass
-class HypothesisCheckerResults:
+class HypothesisChecker:
     linearity: bool
     residuals_normality: bool
     residuals_homoscedasticity: bool
@@ -76,11 +76,11 @@ class HypothesisCheckerResults:
     @staticmethod
     def __from_given_input__(
         X: ArrayLike, y: ArrayLike, model: RegressionResults
-    ) -> "HypothesisCheckerResults":
+    ) -> "HypothesisChecker":
 
-        hypothesis_checker = HypothesisChecker(X=X, y=y, model=model)
+        hypothesis_checker = HypothesisCheckerComputer(X=X, y=y, model=model)
 
-        return HypothesisCheckerResults(
+        return HypothesisChecker(
             linearity=hypothesis_checker.check_linearity(),
             residuals_normality=hypothesis_checker.check_residuals_normality(),
             residuals_homoscedasticity=hypothesis_checker.check_residuals_normality(),

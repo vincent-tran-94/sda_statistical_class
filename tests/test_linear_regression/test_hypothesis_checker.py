@@ -3,7 +3,7 @@ from unittest.mock import Mock, patch
 import numpy as np
 from statsmodels.regression.linear_model import RegressionResultsWrapper
 
-from artefacts.linear_regression.hypothesis_checker import HypothesisChecker
+from artefacts.linear_regression.hypothesis_checker import HypothesisCheckerComputer
 
 
 class TestHypothesisChecker:
@@ -21,10 +21,10 @@ class TestHypothesisChecker:
         self.y = np.array([1, 2, 3])
 
         # Instantiate HypothesisChecker with the mock model
-        self.checker = HypothesisChecker(self.X, self.y, model=self.mock_model)
+        self.checker = HypothesisCheckerComputer(self.X, self.y, model=self.mock_model)
 
     @patch.object(
-        HypothesisChecker,
+        HypothesisCheckerComputer,
         "fit_ols",
         return_value=Mock(spec=RegressionResultsWrapper),
     )
@@ -33,7 +33,7 @@ class TestHypothesisChecker:
         assert self.checker.check_linearity()
 
     @patch.object(
-        HypothesisChecker,
+        HypothesisCheckerComputer,
         "fit_ols",
         return_value=Mock(spec=RegressionResultsWrapper),
     )
@@ -42,45 +42,55 @@ class TestHypothesisChecker:
         assert not self.checker.check_linearity()
 
     @patch.object(
-        HypothesisChecker, "check_residuals_homoscedasticity", return_value=True
+        HypothesisCheckerComputer, "check_residuals_homoscedasticity", return_value=True
     )
     def test_check_residuals_homoscedasticity_true(self, mock_het_test):
         assert self.checker.check_residuals_homoscedasticity()
 
     @patch.object(
-        HypothesisChecker, "check_residuals_homoscedasticity", return_value=False
+        HypothesisCheckerComputer,
+        "check_residuals_homoscedasticity",
+        return_value=False,
     )
     def test_check_residuals_homoscedasticity_false(self, mock_het_test):
         assert not self.checker.check_residuals_homoscedasticity()
 
-    @patch.object(HypothesisChecker, "check_residuals_normality", return_value=True)
+    @patch.object(
+        HypothesisCheckerComputer, "check_residuals_normality", return_value=True
+    )
     def test_check_residuals_normality_shapiro_true(self, mock_shapiro):
         self.X = np.random.rand(500, 2)  # Sample less than 1000
         assert self.checker.check_residuals_normality()
 
-    @patch.object(HypothesisChecker, "check_residuals_normality", return_value=False)
+    @patch.object(
+        HypothesisCheckerComputer, "check_residuals_normality", return_value=False
+    )
     def test_check_residuals_normality_shapiro_false(self, mock_shapiro):
         self.X = np.random.rand(500, 2)
         assert not self.checker.check_residuals_normality()
 
-    @patch.object(HypothesisChecker, "check_residuals_normality", return_value=True)
+    @patch.object(
+        HypothesisCheckerComputer, "check_residuals_normality", return_value=True
+    )
     def test_check_residuals_normality_lilliefors_true(self, mock_lilliefors):
         self.X = np.random.rand(1500, 2)  # Sample more than 1000
         assert self.checker.check_residuals_normality()
 
-    @patch.object(HypothesisChecker, "check_residuals_normality", return_value=False)
+    @patch.object(
+        HypothesisCheckerComputer, "check_residuals_normality", return_value=False
+    )
     def test_check_residuals_normality_lilliefors_false(self, mock_lilliefors):
         self.X = np.random.rand(1500, 2)
         assert not self.checker.check_residuals_normality()
 
     @patch.object(
-        HypothesisChecker, "check_residuals_autocorrelation", return_value=True
+        HypothesisCheckerComputer, "check_residuals_autocorrelation", return_value=True
     )
     def test_check_residuals_autocorrelation_true(self, mock_dw):
         assert self.checker.check_residuals_autocorrelation()
 
     @patch.object(
-        HypothesisChecker, "check_residuals_autocorrelation", return_value=False
+        HypothesisCheckerComputer, "check_residuals_autocorrelation", return_value=False
     )
     def test_check_residuals_autocorrelation_false(self, mock_dw):
         assert not self.checker.check_residuals_autocorrelation()

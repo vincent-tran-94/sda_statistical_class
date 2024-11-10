@@ -1,4 +1,6 @@
-from utils.stat_test_practice_dataclass import ProblemContext
+from practice.exercices.hypothesis_testing.utils.stat_test_practice_dataclass import (
+    ProblemContext,
+)
 
 
 def test_practice_dataclass():

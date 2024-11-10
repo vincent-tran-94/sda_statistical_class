@@ -1,6 +1,8 @@
 import numpy as np
 
-from utils.stat_test_practice_dataclass import ProblemContext
+from practice.exercices.hypothesis_testing.utils.stat_test_practice_dataclass import (
+    ProblemContext,
+)
 
 target = np.random.normal(1000, 200, 50)
 correlated = target + np.random.normal(0, 50, 50)
