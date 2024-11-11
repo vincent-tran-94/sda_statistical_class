@@ -14,7 +14,7 @@ COLORS = ["#004aad", "#2bb4d4", "#2e2e2e", "#5ce1e6"]
 
 def plot_two_samples(
     sample_1: ArrayLike,
-    sample_2: ArrayLike,
+    sample_2: ArrayLike | None,
     sample_1_label: str = "Sample 1",
     sample_2_label: str = "Sample 2",
     figure_title: str = "Two samples comparison",

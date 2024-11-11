@@ -1,7 +1,9 @@
 from enum import Enum
+from functools import lru_cache
 from typing import Optional
 
 import numpy as np
+import pandas as pd
 import statsmodels.api as sm
 
 from matplotlib import pyplot as plt
@@ -90,3 +92,23 @@ def plot_classification(
     plt.ylabel("Variable 2")
     plt.grid(True)
     plt.show()
+
+
+@lru_cache(maxsize=1)
+def get_time_series():
+    from statsmodels.datasets import co2
+
+    data = co2.load_pandas().data
+    # data.index.name = "date"
+    weekly_data = data.resample("W").mean()
+    return weekly_data.iloc[-500:, :]  # only keep the last 500 points
+
+
+def to_nixtla_format(data: pd.DataFrame, target_name: str) -> pd.DataFrame:
+    return pd.DataFrame(
+        {"ds": data.index, "y": data.loc[:, target_name], "unique_id": target_name}
+    )
+
+
+def from_nixtla_format(data: pd.DataFrame) -> pd.DataFrame:
+    return data.set_index("ds", drop=True)
