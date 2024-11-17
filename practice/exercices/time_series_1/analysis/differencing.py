@@ -6,4 +6,4 @@ if __name__ == "__main__":
     data = get_time_series()
     colors = setup_plot()
 
-    # Plot the data in the temporal domain and the differentiated data
+    # todo : Plot the data in the temporal domain and the differentiated data

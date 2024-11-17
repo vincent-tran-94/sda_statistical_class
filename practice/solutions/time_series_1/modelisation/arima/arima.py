@@ -1,8 +1,7 @@
 import pandas as pd
 from statsmodels.tsa.arima.model import ARIMA
 
-from artefacts.hypothesis_testing.time_series.plots import plot_acf_pacf
-from artefacts.time_series.dickey_fuller_test import AdvancedADFTest
+from artefacts.time_series.plots import plot_acf_pacf
 from demos.utlis import (
     get_time_series,
     setup_plot,
@@ -57,6 +56,7 @@ if __name__ == "__main__":
         q=2,
         d=1,
     )
+
     statsforecast_preds = statsforecast_modelisation(
         data=modelled_data, target_name="co2", p=4, q=2, d=1
     )
@@ -65,7 +65,7 @@ if __name__ == "__main__":
     plot_acf_pacf(modelled_data, lags=50, color=colors[0])
 
     plot_preds_results(
-        data=plotted_data,
+        data=modelled_data,
         statsmodels_preds=statsmodels_preds,
         statsforecast_preds=statsforecast_preds,
     )

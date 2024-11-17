@@ -34,4 +34,4 @@ if __name__ == "__main__":
     # https://nixtlaverse.nixtla.io/statsforecast/src/tbats.html#tbats-model
 
     horizon = 24
-    # fit a tbats and predict
+    # todo : fit a tbats and predict

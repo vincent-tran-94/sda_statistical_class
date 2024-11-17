@@ -30,7 +30,7 @@ if __name__ == "__main__":
     # avec sklearn
     # from sklearn.linear_model import LogisticRegression
     #
-    # model = LogisticRegression(fit_intercept=True)
+    # model = LogisticRegression(fit_intercept=True) # = sm.add_constant(data=X)
     #
     # model = model.fit(X, y)
     # y_score = model.predict_proba(X)[:, 1]

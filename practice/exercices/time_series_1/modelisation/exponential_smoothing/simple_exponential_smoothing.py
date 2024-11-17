@@ -14,4 +14,4 @@ if __name__ == "__main__":
     data = get_time_series()
     colors = setup_plot()
 
-    # fit a simple exponential smoothing model and predict
+    # todo : fit a simple exponential smoothing model and predict
