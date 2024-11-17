@@ -61,8 +61,8 @@ mock_problems = {
         problem_statement="On veut tester la normalité d'un échantillon de grande taille. Dans un tel cas, le test de Shapiro-Wilk peut échouer dans la détection de la normalité. Il faut trouver une autre solution.",
         data=np.random.chisquare(df=2, size=1000),
         hints=[
-            "On peut utiliser le test de Kolmogorov-Smirnov pour tester la normalité d'un échantillon de grande taille, en utilisant la fonction de répartition d'une loi normale.",
-            "https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.kstest.html",
+            "On peut utiliser le test de Lilliefors ou d'Anderson-Darling pour tester la normalité d'un échantillon de grande taille, en utilisant la fonction de répartition d'une loi normale.",
+            "https://www.statsmodels.org/dev/generated/statsmodels.stats.diagnostic.lilliefors.html",
         ],
     ),
     # end to end

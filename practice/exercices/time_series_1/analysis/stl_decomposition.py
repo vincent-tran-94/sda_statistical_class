@@ -7,4 +7,4 @@ if __name__ == "__main__":
     data = get_time_series()
     colors = setup_plot()
 
-    # perform and plot stl decomposition
+    # todo : perform and plot stl decomposition

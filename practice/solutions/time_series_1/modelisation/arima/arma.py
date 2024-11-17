@@ -1,8 +1,6 @@
 import pandas as pd
 from statsmodels.tsa.arima.model import ARIMA
 
-from artefacts.hypothesis_testing.time_series.plots import plot_acf_pacf
-from artefacts.time_series.dickey_fuller_test import AdvancedADFTest
 from demos.utlis import (
     get_time_series,
     setup_plot,

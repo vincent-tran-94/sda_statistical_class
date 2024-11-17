@@ -14,4 +14,4 @@ from statsforecast.models import HoltWinters
 if __name__ == "__main__":
     data = get_time_series()
     colors = setup_plot()
-    # fit a seasonal-trend exponential smoothing model and predict
+    # todo : fit a seasonal-trend exponential smoothing model and predict

@@ -1,9 +1,8 @@
 import pandas as pd
-from matplotlib import pyplot as plt
 from statsforecast.models import AutoRegressive
 from statsmodels.tsa.ar_model import AutoReg
 
-from artefacts.hypothesis_testing.time_series.plots import plot_acf_pacf
+from artefacts.time_series.plots import plot_acf_pacf
 from artefacts.time_series.dickey_fuller_test import AdvancedADFTest
 from demos.utlis import (
     get_time_series,

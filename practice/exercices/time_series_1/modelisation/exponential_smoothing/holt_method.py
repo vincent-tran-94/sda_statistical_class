@@ -14,4 +14,4 @@ from statsforecast.models import Holt
 if __name__ == "__main__":
     data = get_time_series()
     colors = setup_plot()
-    # fit a trended exponential smoothing model and predict
+    # todo : fit a trended exponential smoothing model and predict

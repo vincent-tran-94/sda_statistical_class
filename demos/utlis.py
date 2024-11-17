@@ -1,6 +1,6 @@
 from enum import Enum
 from functools import lru_cache
-from typing import Optional
+from typing import Optional, Tuple
 
 import numpy as np
 import pandas as pd
@@ -112,3 +112,38 @@ def to_nixtla_format(data: pd.DataFrame, target_name: str) -> pd.DataFrame:
 
 def from_nixtla_format(data: pd.DataFrame) -> pd.DataFrame:
     return data.set_index("ds", drop=True)
+
+
+def get_noisy_time_series() -> pd.Series:
+    np.random.seed(0)
+
+    time = np.arange(1, 500)
+    seasonal_pattern = 50 * np.sin(2 * np.pi * time / 12)
+    data = (
+        5 + 0.5 * time + seasonal_pattern + np.random.normal(scale=60, size=len(time))
+    )
+
+    return pd.Series(
+        data=data,
+        index=pd.date_range(start="2020-01-01", periods=len(time), freq="D"),
+    )
+
+
+def get_time_series_with_outliers(n_outliers: int = 50) -> pd.Series:
+    np.random.seed(0)
+
+    df = get_noisy_time_series()
+    outliers = np.random.choice(df.index, size=n_outliers, replace=False)
+    df.loc[outliers] = df.loc[outliers] + np.random.normal(
+        scale=300, size=len(outliers)
+    )
+    return df
+
+
+def get_time_series_with_missing_values(
+    n_missing: int = 50,
+) -> Tuple[pd.Series, pd.Series]:
+    df = get_noisy_time_series()
+    missing_values = np.random.choice(df.index, n_missing, replace=False)
+    df.loc[missing_values] = np.nan
+    return df, missing_values
