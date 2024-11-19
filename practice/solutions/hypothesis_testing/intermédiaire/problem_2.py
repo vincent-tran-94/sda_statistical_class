@@ -1,4 +1,6 @@
 from scipy.stats import kstest, norm
+from statsmodels.stats._lilliefors import lilliefors
+
 from mocks.hypothesis_testing.hypothesis_testing_mocks import mock_problems
 from practice.solutions.hypothesis_testing.utils.plotter import plot_two_samples
 
@@ -13,18 +15,13 @@ if __name__ == "__main__":
         sample_2_label="Normal distribution",
         alternative_plot="ecdf",
     )
-    # Calculate the mean and standard deviation of the sample
-    sample_mean = sample.mean()
-    sample_std = sample.std(ddof=1)  # Sample standard deviation
 
-    # Perform the Kolmogorov-Smirnov test
-    result = kstest(sample, "norm", args=(sample_mean, sample_std))
-
+    kstat, pvalue = lilliefors(x=sample, dist="norm")
+    # h0 : La distribution est normalement distribuée
     result_text = (
         "La distribution est normalement distribuée"
-        if result.pvalue >= 0.05
+        if pvalue >= 0.05
         else "La distribution n'est pas normalement distribuée"
     )
 
-    print(result)
-    print(result_text)
+    print(f"{result_text} - pvalue: {pvalue:.4f}")

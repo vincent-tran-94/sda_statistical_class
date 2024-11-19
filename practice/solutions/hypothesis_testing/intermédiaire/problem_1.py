@@ -1,6 +1,7 @@
 import numpy as np
-from scipy.stats import ttest_ind
 
+from artefacts.hypothesis_testing.data.input_parameters import TtestInputTestParameters
+from artefacts.hypothesis_testing.statistical_tests.t_test import Ttest
 from mocks.hypothesis_testing.hypothesis_testing_mocks import mock_problems
 from practice.solutions.hypothesis_testing.utils.plotter import plot_two_samples
 
@@ -23,8 +24,10 @@ if __name__ == "__main__":
         x_label="Scores de performance",
     )
 
-    res = ttest_ind(avec_formation, sans_formation)
-    if res.pvalue < 0.05:
-        print("Les scores de performance diffèrent significativement.")
-    else:
-        print("Les scores de performance ne diffèrent pas significativement.")
+    t_test = Ttest()
+    t_test.fit(
+        X=avec_formation,
+        y=sans_formation,
+        input_parameters=TtestInputTestParameters(equal_var=False),
+    )
+    print(f"Les moyennes sont identiques: {t_test.is_null_hypothesis_true}")

@@ -15,7 +15,7 @@ mock_problems = {
     ),
     # simple cases
     "variance_comparison": ProblemContext(
-        problem_statement="On veut comparer les variances de deux échantillons, afin de savoir si ces dernières sont identiques où non.",
+        problem_statement="On veut comparer les variances de deux échantillons, afin de savoir si ces dernières sont identiques ou non.",
         data=(np.random.uniform(0, 10, 1000), np.random.normal(0, 10, 1000)),
         hints=[
             "On peut utiliser le test de Levene pour comparer les variances de deux échantillons.",
