@@ -22,8 +22,8 @@ def setup_plot():
     from aquarel import load_theme
     import seaborn as sns
 
-    theme = load_theme("minimal_light")
-    theme.apply()
+    # theme = load_theme("minimal_light")
+    # theme.apply()
 
     return ["#004aad", "#2bb4d4", "#2e2e2e", "#5ce1e6"]
 

@@ -16,6 +16,7 @@ if __name__ == "__main__":
     )
 
     fitted = model.fit()
+    #print(fitted.summary())
     preds = fitted.forecast(steps=12)
 
     print(preds.head())

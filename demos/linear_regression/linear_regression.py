@@ -18,8 +18,8 @@ if __name__ == "__main__":
     print(model.summary())
 
     # retrieving regression line
-    preds = model.fittedvalues
-    # preds = model.predict(X) # both works
+    #preds = model.fittedvalues
+    preds = model.predict(modified_X) # both works
 
     plot_data(X=X, y=y, colors=colors, preds=preds)
 
